@@ -9,3 +9,5 @@ git log --onelinet
 
 git revert
 
+git reset
+
