@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('SCM') {
             steps {
-               git branch: 'war', url: 'https://github.com/awspandian/demo-pro.git'
+               git branch: 'war', url: 'https://github.com/awspandian/DD-22.git'
             }
         }
      	stage('Build') {
