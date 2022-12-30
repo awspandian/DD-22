@@ -1,0 +1,190 @@
+		## master and nodes need to follow the steps:
+sudo -i
+apt update 
+apt install curl git -y
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh 
+wget https://storage.googleapis.com/golang/getgo/installer_linux
+chmod +x ./installer_linux
+./installer_linux
+source ~/.bash_profile
+git clone https://github.com/Mirantis/cri-dockerd.git
+cd cri-dockerd
+mkdir bin
+go build -o bin/cri-dockerd
+mkdir -p /usr/local/bin
+install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+cp -a packaging/systemd/* /etc/systemd/system
+sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+systemctl daemon-reload 
+systemctl enable cri-docker.service
+systemctl enable --now cri-docker.socket
+systemctl status cri-docker.socket
+sudo apt update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+exit
+			## master and nodes need to follow the steps:
+## in normal_user
+sudo apt update 
+sudo apt-get install -y apt-transport-https ca-certificates curl 
+sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg  
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+sudo apt-get update 
+sudo apt-get install -y kubelet=1.25.0-00 kubeadm=1.25.0-00 kubectl=1.25.0-00 && 
+sudo apt-mark hold kubelet kubeadm kubectl
+
+			## only in master need to follow the steps:
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
+			## run on master node:	
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+			##only in nodes use the toke which you got from your master
+
+kubeadm join 172.31.26.31:6443 --token ************************************************** *** ************************************* --cri-socket "unix:///var/run/cri-dockerd.sock"
+		
+## only in master need to follow the steps: for network
+
+https://raw.githubusercontent.com/flannel-io/flannel/v0.20.2/Documentation/kube-flannel.yml
+
+# only in master need to do this below commands and yaml files
+
+kubectl get nodes
+kubectl apply -f 
+kubectl get pods -W
+kubectl get pods
+kubectl get nodes
+kubectl api-resources
+ kubctl apply -f A1.yaml
+ kubectl apply -f A1.yaml
+ kubectl get po
+ kubectl get po -w
+ kubectl get pods -o wide
+ kubectl describe pods hello-pod
+ kubectl get pods hello-pod -o yaml
+  kubectl delet -f A1.yaml
+  kubectl delete -f A1.yaml
+  kubectl get po
+  kubectl apply -f A2.yaml
+  kubectl get po
+  kubectl apply -f A3.yaml
+  vi A3.yaml
+  kubectl apply -f A3.yaml
+  kubectl get po
+ kubectl apply -f restartpolicy.yaml
+ kubectl get po
+ kubectl get po -w
+ kubectl apply -f init-con.yaml
+ kubectl get po -w
+ ls
+ kubectl delete -f A1.yaml
+ kubectl delete -f A2.yaml
+ kubectl delete -f A3.yaml
+ kubectl delete -f init-con.yaml
+ kubectl delete -f restartpolicy.yaml
+ kubectl run nginx --image=nginx --restart=Never
+ kubectl get po
+ kubectl delete -f nginx
+ kubectl delete  nginx
+ kubectl delete pods --all
+ kubectl get po
+ kubectl apply -f rc-set.yaml
+ vi rc-set.yaml
+ kubectl apply -f rc-set.yaml
+ vi rc-set.yaml
+ kubectl apply -f rc-set.yaml
+ kubectl delete pods --all
+ kubectl get po
+ kubectl delete pods --all
+ kubectl get po
+ kubectl delete -f rc-set.yaml
+ kubectl get po
+ kubectl apply -f lael.yaml
+ kubectl get po -o wide
+ kubectl describe pod nginx1
+ kubectl describe pod nginx2
+ kubectl get po
+ kubectl get po -l app=nginx
+ kubectl get po -l ver=1.23
+ kubectl get po -l 'ver notin (1)'
+ kubectl get po -l 'ver in (1)'
+ kubectl get po -l 'ver in (1),app in (apache)'
+ kubectl get po -l 'ver in (1.23,1.24), app in (apache,nginx)'
+ kubectl get po -l 'ver in (1), app in (apache,nginx)'
+ kubectl get po -l 'ver in (1.23,1.24), app in (apache,nginx)'
+ kubectl get pod
+ kubectl delete -f lael.yaml
+ ls
+ vi nginx-rs.yaml
+ kubectl apply -f nginx-rs.yaml
+ kubectl get rs -o wide
+ kubectl get po
+ kubectl delete po rs
+ kubectl delete po nginx-rs.yaml
+ kubectl delete po nginx-rs-mlrcr
+ kubectl get po
+ ls
+ kubectl delet -f nginx-rs.yaml
+ kubectl delete -f nginx-rs.yaml
+ kubectl get po
+ kubectl scale  rs nginx-rs --replicas=6
+ kubectl apply -f nginx-rs.yaml
+ kubectl scale  rs nginx-rs --replicas=2
+ kubectl scale  rs nginx-rs --replicas=6
+ kubectl get po
+ kubectl scale  rs nginx-rs --replicas=6
+ kubectl get po
+ kubectl apply -f nginx-rs.yaml
+ kubectl get rs
+ kubectl get po
+ kubectl apply -f nginx-rs.yaml
+ kubectl get po
+ kubectl delete -f nginx-rs.yaml
+ vi rs1.yaml
+ kubectl apply -f rs1.yaml
+ kubectl get rs
+ kubectl get po -o wide
+ vi service.yaml
+ kubectl delete -f rs1.yaml
+ kubectl get po -o wide
+ kubectl get service.yaml
+ kubectl apply -f service.yaml
+ kubectl get svc
+ kubectl get svc -o wide
+ # curl 10.96.48.35:35000
+ #  curl http://10.96.48.35:35000
+  kubectl exec -it exp-pod -- /bin/sh
+  kubectl get po -o
+  kubectl get po -o wide
+  kubectl get svc -o wide
+   vi service.yaml
+   kubectl delete -f service.yaml
+  kubectl apply -f service.yaml
+  kubectl get pods
+  kubectl get rs
+  kubectl get svc
+  kubectl get ep
+  kubectl get endpointslices
+  kubectl delete -f service.yaml
+  kubectl apply -f ng-cl-svc.yaml
+  kubectl get svc
+  kubectl get ep
+  kubectl get endpointslices
+  kubectl describe endpoint nginx-svc
+  kubectl describe endpoints nginx-svc
+  ls
+  kubectl delete ng-cl-svc.yaml
+  kubectl delete -f ng-cl-svc.yaml
+  kubectl get endpointslices
+  kubectl get po
+  kubectl get svc -w
+  kubectl delete -f ng-svc-lb.yaml
+  kubectl get po
+  kubectl get svc -w
+  kubectl apply -f con-rs.yaml
+  kubectl get rs
+  kubectl top pods
+ 
