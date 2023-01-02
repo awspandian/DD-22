@@ -1,0 +1,434 @@
+Kubernetes is a container management technology developed in Google lab  
+Kubernetes in an open source container management tool
+hosted by Cloud Native Computing Foundation (CNCF) 
+Kubernetes also called "K8s" is an open-source system for 
+automating deployment, management and scaling of containerized applications 
+It supports a range of container tools, including Docker 
+Kubernetes v1.0 was released on July 21, 2015 
+
+• Kubernetes comes with a capability of automating deployment, scaling of application, 
+and operations of application containers across clusters 
+• Following are some of the important features of Kubernetes
+• Continues development, integration and deployment
+• Containerized infrastructure 
+• Application-centric management 
+• Auto-scalable infrastructure
+• Environment consistency across development testing and production
+• Loosely coupled infrastructure, where each component can act as a separate unit 
+• Higher density of resource utilization 
+• Predictable infrastructure which is going to be created 
+
+Kubernetes – Master Machine Components 
+---------------------------------------
+• Following are the components of Kubernetes Master Machine 
+• etcd 
+	• Stores the configuration information which can be used by each of the nodes in the cluster
+	• It is a high availability key value store that can be distributed among multiple nodes
+	• It is accessible only by Kubernetes API server as it may have some sensitive information
+	• It is a distributed key value Store which is accessible to all 
+• API Server 
+	• Kubernetes is an API server which provides all the operation on cluster using the API
+	• API server implements an interface, which means different tools and libraries can readily communicate with it 
+	• Kubeconfig is a package along with the server side tools that can be used for communication
+	• It exposes Kubernetes API 
+Kubernetes – Master Machine Components Contd. 
+-------------------------------------------
+####   Controller Manager 
+---------------------
+	• This component is responsible for most of the collectors that regulates the state of cluster and performs a task 
+	• It can be considered as a daemon which runs in nonterminating loop and is responsible for collecting and sending information to API server 
+	• It works toward getting the shared state of cluster and then make changes to bring the current status of the server to the desired state. 
+	• The key controllers are replication controller, endpoint controller, namespace controller, and service account controller. 
+	• The controller manager runs different kind of controllers to handle nodes, endpoints, etc. 
+#### Scheduler 
+-----------------
+	• This is one of the key components of Kubernetes master
+	• It is a service in master responsible for distributing the workload
+	• It is responsible for tracking utilization of working load on cluster nodes and then placing the workload on which resources are available and accept the workload 
+	• This is the mechanism responsible for allocating pods to available nodes
+	• The scheduler is responsible for workload utilization and allocating pod to new node 	
+#### Kubernetes – Node Components 
+---------------------------------------
+• Following are the key components of Node server which are necessary to communicate with Kubernetes master 
+• Docker 
+	• The first requirement of each node is Docker which helps in running the encapsulated application containers in a relatively isolated but lightweight operating environment 
+• Kubelet Service 
+	• This is a small service in each node responsible for relaying information to and from control plane service
+	• It interacts with etcd store to read configuration details and right values
+	• This communicates with the master component to receive commands and work
+	• The kubelet process then assumes responsibility for maintaining the state of work and the node server
+	• It manages network rules, port forwarding, etc 
+• Kubernetes Proxy Service 
+	• This is a proxy service which runs on each node and helps in making services available to the external host 
+	• It helps in forwarding the request to correct containers and is capable of performing primitive load balancing
+	• It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well
+	• It manages pods on node, volumes, secrets, creating new containers’ health check up, etc 	
+	
+Google Container Services 
+---------------------------------------
+• The Google Cloud Platform offers a hosted Kubernetes-as-a-Service called Google Container Engine (GKE). To get started with GKE, you need a Google Cloud Platform account with billing enabled and the gcloud tool installed
+• Once you have gcloud installed, first set a default zone: 
+	gcloud config set compute/zone us-west1-a
+• Then you can create a cluster:
+	gcloud container clusters create kuar-cluster
+• When the cluster is ready you can get credentials for the cluster using: 
+	gcloud auth application-default login 
+• At this point, you should have a cluster configured and ready to go 	
+
+Installing Kubernetes with Azure Container Service 
+---------------------------------------------------
+• Microsoft Azure offers a hosted Kubernetes-as-a-Service as part of the Azure Container Service 
+• The easiest way to get started with Azure Container Service is to use the built-in Azure Cloud Shell in the Azure portal 
+• You can activate the shell by clicking the shell icon 
+• Once you have the shell up and working, you can run: 
+	az group create --name=kuar --location=westus
+• Once the resource group is created, you can create a cluster using: 
+	az acs create --orchestrator-type=kubernetes --resource-group=kuar --name=kuar-cluster 
+• Once the cluster is created, you can get credentials for the cluster with:
+	az acs kubernetes get-credentials --resource-group=kuar --name=kuar-cluster 
+• If you don’t already have the kubectl tool installed, you can install it using:
+	az acs kubernetes install-cli 
+
+Installing Kubernetes on Amazon AWS 
+---------------------------------------
+• Amazon Web Services (AWS) recently introduced a managed Kubernetes service called EKS 
+• It’s still under preview mode 
+• At the moment Kubernetes can be installed on AWS as explained in the Kubernetes documentation either using conjure-up, Kubernetes Operations (kops), CoreOS Tectonic or kube-aws 	
+Installing Kubernetes Locally Using minikube 
+• If you need a local development experience, or you don’t want to pay for cloud resources, you can install a simple single-node cluster using minikube
+• While minikube is a good simulation of a Kubernetes cluster, it is really intended for local development, learning, and experimentation
+• Because it only runs in a VM on a single node, it doesn’t provide the reliability of a distributed Kubernetes cluster
+• You can find the minikube tool on GitHub
+• There are binaries for Linux, macOS, and Windows that you can download
+• Once you have the minikube tool installed you can create a local cluster using: 
+		minikube start 
+• This will create a local VM, provision Kubernetes, and create a local kubectl configuration that points to that cluster 
+• When you are done with your cluster, you can stop the VM with:
+		minikube stop
+• If you want to remove the cluster, you can run:
+		minikube delete 
+
+Installing Kubernetes on Bare Metal 
+---------------------------------------
+• We will use Amazon AWS cloud for native 
+installation and setup of Kubernetes 
+• Exercise 1: Install Kubernetes on Bare Metal 
+Kubernetes - Kubectl
+• Kubectl is the command line utility to interact with Kubernetes API 
+• Kubectl controls the Kubernetes Cluster
+• It is one of the key components of Kubernetes which runs on the workstation on any machine when the setup is done
+• It has the capability to manage the nodes in the cluster. 
+• Kubectl commands are used to interact and manage Kubernetes objects and the cluster
+Kubernetes Images
+• Kubernetes (Docker) images are the key building blocks of Containerized Infrastructure
+• Each container in a pod has its Docker image running inside it
+• When we are configuring a pod, the image property in the configuration file has the same syntax as the Docker command does 
+• The configuration file has a field to define the image name, whichwe are planning to pull from the registry .
+Kubernetes Images 
+• In order to pull the image and create a container, we will run the following
+command 
+	kubectl create –f Testing_for_Image_pull 
+• Once we fetch the log, we will get the output as successful
+	kubectl log Testing_for_Image_pull 
+• The above command will produce an output of success or we will get an output as failure 
+Kubernetes Jobs 
+• The main function of a job is to create one or more pod and tracks about the success of pods 
+• Jobs ensure that the specified number of pods are completed successfully
+• When a specified number of successful run of pods is completed, then the job is considered complete
+ 
+ Creating a Job
+• We will create the job using the following command with yaml 
+which is saved with the name py.yaml 
+		kubectl create –f py.yaml 
+• The above command will create a job 
+• If you want to check the status of a job, use the following command 
+		kubectl describe jobs/py 
+Scheduled Jobs 
+• Scheduled job in Kubernetes uses Cronetes, which takes Kubernetes job and launches them in Kubernetes cluster 
+• Scheduling a job will run a pod at a specified point of time
+• A parodic job is created for it which invokes itself automatically
+• We will use the same yaml which we used to create the job and make it a scheduled job 
+• This scheduled job concept is useful when we are trying to build  and run a set of tasks at a specified point of time and then complete the process  		
+
+Kubernetes – Labels & Selectors 
+---------------------------------------
+#https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+• Labels 
+	• Labels are key-value pairs which are attached to pods, replication controller and services
+	• They are used as identifying attributes for objects such as pods and replication controller.
+	• These labels help in querying resources based on conditions according labels defined
+	• They can be added to an object at creation time and can be added or modified at the run time 
+	## kubectl describe pod nginx2
+• Selectors 
+	• Labels do not provide uniqueness
+	• In general, we can say many objects can carry the same labels
+	• Labels selector are core grouping primitive in Kubernetes
+	• They are used by the users to select a set of objects.
+	• Kubernetes API currently supports two type of selectors − 
+		• Equality-based selectors 
+		• Set-based selectors 
+
+Namespace
+-------------
+#https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+• Namespace provides an additional qualification to a resource name
+• This is helpful when multiple teams are using the same cluster and there is a potential of name collision
+• It can be as a virtual wall between multiple clusters 
+• Following are some of the important functionalities of a Namespace in Kubernetes − 
+	• Namespaces help pod-to-pod communication using the same namespace 
+	• Namespaces are virtual clusters that can sit on top of the same physical cluster
+	• They provide logical separation between the teams and their environments 		
+
+Kubernetes - Node 
+--------------------
+#https://kubernetes.io/docs/concepts/architecture/nodes/
+• Kubernetes runs your workload by placing containers into Pods to run on Nodes. 
+• A node may be a vm or physical machine, depending on the cluster or a cloud instance
+• Each node has all the required configuration required to run a pod on it such as the proxy  service and kubelet service along with the Docker, which is used to run the Docker containers on the pod created on the node
+• They are not created by Kubernetes but they are created externally either by the cloud service provider or the Kubernetes cluster manager on physical or VM machines 
+• The key component of Kubernetes to handle multiple nodes is the controller manager, which runs multiple kind of controllers to manage nodes
+• To manage nodes, Kubernetes creates an object of kind node which will validate that the object which is created is a valid node 	
+Node Controller 
+ • They are the collection of services which run in the Kubernetes master and continuously monitor the node in the cluster on the basis of metadata.name
+ • If all the required services are running, then the node is validated and a newly created pod will be assigned to that node by the controller
+ • If it is not valid, then the master will not assign any pod to it and will wait until it becomes valid.
+ • Kubernetes master registers the node automatically, if –register-node flag is true   	
+			–register-node = true 
+ • If the cluster administrator wants to manage it manually then it could be done by turning the flag off −  	
+		–register-node = false 
+		
+Kubernetes - Service 
+----------------------
+ • A service can be defined as a logical set of pods 
+ • It can be defined as an abstraction on the top of the pod which provides a single IP address and DNS name by which pods can be accessed 
+ • With Service, it is very easy to manage load balancing configuration 
+ • It helps pods to scale very easily.
+ • A service is a REST object in Kubernetes whose definition can be posted to Kubernetes apiServer on the Kubernetes master to create a new instance 
+ 
+Kubernetes – Replication Controller
+---------------------------------------
+# https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/
+	• Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle
+	• It is responsible for making sure that the specified number of pod replicas are running at any point of time
+	• It is used in time when one wants to make sure that the specified number of pod or at least one pod is running 
+	• It has the capability to bring up or down the specified no of pod
+	• It is a best practice to use the replication controller to manage the pod life cycle rather than creating a pod again and again 
+Kubernetes – Replica Sets 
+	• Replica Set ensures how many replica of pod should be running 
+	• It can be considered as a replacement of replication controller 
+	• The key difference between the replica set and the replication controller is, the replication controller only supports equality-based selector whereas the replica set supports set-based selector   
+Kubernetes – Deployments 
+	• Deployments are upgraded and higher version of replication controller 
+	• They manage the deployment of replica sets which is also an upgraded version of the replication controller.
+	• They have the capability to update the replica set and are also capable of rolling back to the previous version 
+	• They provide many updated features of matchLabels and selectors
+	• We have got a new controller in the Kubernetes master called the deployment controller which makes it happen 
+	• It has the capability to change the deployment midway
+Kubernetes – Autoscaling 
+	• Autoscaling is one of the key features in Kubernetes cluster
+	• It is a feature in which the cluster is capable of increasing the number of nodes as the demand for service response increases and decrease the number of nodes as the requirement decreases
+	• This feature of auto scaling is currently supported in Google Cloud Engine (GCE) and Google Container Engine (GKE) and will start with AWS pretty soon 
+	• In order to set up scalable infrastructure in GCE, we need to first have an active GCE project with features of Google cloud monitoring, google cloud logging, and stackdriver enabled 
+ 	
+ 	https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run
+
+
+
+
+
+Kubernetes Networking Model
+##https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/ to understand the internals of kubernetes networking
+* K8s dictates following
+	* all Pods can communicate with all other Pods without using network address translation (NAT).
+	* all Nodes can communicate with all Pods without NAT.
+	* the IP that a Pod sees itself as is the same IP that others see it as.
+* All the Pods in the k8s cluster have a CIDR Range
+* To implement these k8s takes linux kernel networking features such as netfilter and iptables.
+
+Kubernetes Pods
+	* K8s Pods are atomic unit in k8s cluster.
+	* Pods have containers which run applications
+	* Consider the wordpress example. We need to have wordpress container and mysql container for wordpress to work
+	* To run this with Pods
+	* Now lets understand scaling.
+	* Pod life cycle # https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/
+	* Pod Phases # https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase
+	* Pod restart policy: Always, Never, OnFailure
+	* Lets write a spec which sleeps for 2 seconds (sleep 2)
+	* restart policy Never
+	* not specify restart policy in spec
+	* ## for the specs (need to update from github)
+Pods can run 3 types of containers
+	* Containers => Where we run our applications
+	* init containers:
+		* These containers are created one by one and only after its completion, the normal containers are created.
+		* We will use these containers for any initial setup or configuration kind of purposes
+	* ephemeral containers:
+		* No guarantee containers, they are used rarely in the case of debugging or trouble shooting containers in Pod
+* Lets create a Pod with 2 init container which sleep for 5 seconds and then in container we run nginx.
+##https://github.com/awspandian/DD-22/blob/K8s/init-con.yaml for the manifest written
+* Now create the pod	
+* Writing YAML files to describe the status is referred as declarative approach, k8s also supports imperative approach
+		kubectl run nginx --image=nginx --restart=Never
+	https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run	
+	
+Replication Controller
+#https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/ for official docs
+There are many cases where we would want to run multiple instance of a application.
+In k8s we run application in Pod and to set mutlple instances we use replica sets or replication controllers.
+Lets try to run 5 nginx Pods in our cluster
+##github   for the manifest
+
+
+
+##github for manifest with labels defined and selectors
+
+##github  for the fix with matchLabels section removed
+
+Labels in K8s
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+In k8s as part of metadata we can apply labels to the resources.
+These labels help in querying resources based on conditions according labels defined
+
+Lets create 2 pod specs with label specifications as shown above
+##github   for the changes
+
+kubectl apply -f nginx-labels.yaml
+kubectl get pod -o wide
+kubectl describepod nginx2
+kubectl get po -l app=nginx
+kubectl get po -l ver=1.23
+kubectl get po -l 'ver notin (1)'
+kubectl get po -l 'ver in (1)'
+kubectl get po -l 'ver in (1)',app in (apache)
+kubectl get po -l 'ver in (1)',app in (apache,nginx)
+
+Lets run some command line selectors	
+
+Replication Controller
+	* Replication Controller is the first gen replica workload for k8s objects.
+	* Replication Controller labels can be matched only on equality not set based **##**
+Replica Set
+	* This is succesor to Replication Controller.
+	* Replica Sets are used by Deployments.
+	* Replica Sets changes can be tracked and that is what the deployment uses.
+	* **##** for the official docs
+	* Lets create a replicaset with 4 nginx Pods. **##** for the changes
+
+	* k8s replica set will always try to maintain the desired count. Of the desired is not matching with actual state, a new Pods can be created or existing pods can be deleted to maintain the desired state
+	* Scaling number of replicas
+		* imperative way:
+
+		* declartive way: Change the spec and apply the spec again.
+
+ * TASK: Create a replica set with Pod specification with jenkins Pod and ping -c 4 google.com in alpine as init container with restart policy Never.
+* **##** for the changeset
+	kubectl apply -f sample-rs.yaml
+* top commands using kubectl (Need to fix metrics server)
+	* metrics server needs to be added to k8s cluster **##**
+* kubernetes UI: **##** (Need to work with tokens and proxy)
+* Terms to understand
+	* addons
+	* users
+	* service account
+	* cluster role binding
+* Next Steps
+	* Limits to containers
+	* Expose applications to outside world
+	* Kubernetes as a service (AKS, EKS)
+	* Deployments & Other workloads
+	* deal with storage
+	* Authentication and Authorizations
+* Getting inside Containers
+	kubectl exec -it <pod-name> -- <shell /bin/bash /bin/sh>
+	kubectl exec <pod-name> -- <linux command>
+Kubernetes Service
+##https://kubernetes.io/docs/concepts/services-networking/service/ for official docs
+
+
+ use the replica set with 4 nginx replicas and create a cluster ip service which creates an internal ip accesssible within k8s cluster ##github
+Create and verify replica set with pods
+	kubectl apply -f nginx-rs.yaml
+	kubectl get rs
+	kubectl	get po -o wide
+	kubectl get svc
+	kubectl apply -f nginx-svc.yaml
+	kubectl get svc -o wide
+
+This svc can be verified only by some Pod in k8s cluster. Lets create an experiment pod. ##github for the changes
+Check for accessing nginx svc using ip
+		kubectl exec -it exp-pod -- /bin/sh/
+			apk add curl
+			curl http://ipaddress:portnumber
+
+We are able to access the nginx using svc ip with in cluster
+Now verify with service name inside cluster and it will be working
+
+K8s can expose the service to the external world
+ * nodePort: Expose the service to the particular port on all the nodes of k8s cluster
+ * loadBalancer: Exposes the service to the loadbalancer
+ * external: Creates a DNS record which can be added to DNS servers maintaine by your org.
+Expose the above service to the nodes. ##github for the changes
+	
+		*	Kubernetes as a Service
+* In k8s cluster we have
+	* master nodes/control plane
+	* nodes
+* Making master nodes highly available is our responsibilty and adding authorizations, addons etc is our responsibility
+* K8s as a service is where Cloud provider manages Master nodes/cluster and HA. They also provide features for integrating k8s with other cloud services. The upgrades to the k8s cluster are easier to handle
+* For nodes they charge usual virtual machine costs.
+* Some clouds charge hourly for control plane
+		* Azure Kubernetes Services
+## https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli for launching the aks cluster
+For doing this as requirements
+	* azure cli to be installed
+	* azure cli to be logged in
+From Azure CLI instructions
+	az group create --name myResourceGroup --location eastus
+	az aks create -g myResourceGroup -n myAKSCluster --enable-managed-identity --node-count 2 --enable-addons monitoring --enable-msi-auth-for-monitoring  --generate-ssh-keys
+	az aks install-cli
+##github for the cluster ip service
+Lets create nginx-rs and nginx-cluster-ip
+	kubectl apply -f .\nginx-rs.yaml
+	kubectl get rs
+	kubectl get pods
+	kubectl get -f .\nginx-cluster-svc.yaml
+	kubectl get svc
+	kubectl get ip
+	kubectl get endpointslices
+	kubectl describe endpoints nginx-svc
+	kubectl apply -f .\nginx-svc-lb.yaml
+	kubectl get svc -w
+	
+Since we are in Azure and Azure has load balancer. **##** for the spec.
+
+
+Resource Limits
+https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+	Lets create a new replicaset with jenkins application with following
+		* lower limit => requests
+			* Memory => 256 Mi
+		* upper limit => limits
+			* Memory => 512 Mi
+##github for the changes and apply the manifest
+kubectl apply -f .\jenkins-rs.yaml
+kubectl get rs
+kubectl top pods
+
+
+
+			**Probes in K8s
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+* k8s has 3 probes
+	* liveness probe:
+		* If this check fails, Pod will restart the container
+	* readiness probe:
+		* If this fails, this Pod will not be served by k8s service.
+	* startup probe
+* k8s allows us to check this by
+	* sending a http(s) request
+	* sending a tcp request
+	* sending a grpc request
+	* send a linux command
+
+
