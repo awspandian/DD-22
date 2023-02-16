@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+     parameters { 
+	choice(name: 'BRANCH_TO_BUILD', choices: ['master', 'k8s', 'war'], description: 'Branch to build') 
+	string(name: 'MAVEN_GOAL', defaultValue: 'mvn install', description: 'maven goal')	
+	}
+    triggers { 
+	pollSCM('H/02 * * * *')
+	      }
+    
+    stages {
+        stage('SCM') {
+            steps {
+                git branch: "${params.BRANCH_TO_BUILD}", url: 'https://github.com/awspandian/DD-22.git'
+            }
+        }
+        stage('build') {
+            steps {
+                sh "${params.MAVEN_GOAL}"
+		
+            }
+        }
+    }
+}
